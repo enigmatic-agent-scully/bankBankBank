@@ -6,7 +6,6 @@ public class User {
 	public User() {}
 	
 	public User(String username, String pw, String id) {
-		super();
 		this.username = username;
 		this.pw = pw;
 		this.id = id;
