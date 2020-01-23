@@ -5,6 +5,9 @@ public class Customer extends User {
 	private BankAccount account1;
 	private BankAccount account2;
 	
+	public Customer() {
+		super();
+	}
 	
 	public BankAccount getAccount1() {
 		return account1;
