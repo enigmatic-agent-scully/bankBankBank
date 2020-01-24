@@ -12,10 +12,20 @@ public class BankMainDriver {
 			
 			
 			System.out.println("Welcome to use OnePiece bank service  \n\n");
-			System.out.println("press 1~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    for user");
-			System.out.println("press 2~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    for employee");
-			System.out.println("press 3~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    if you are lost");
-			num = scan.nextInt();
+			System.out.println("press 1~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    for users");
+			System.out.println("press 2~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    for employees");
+//			System.out.println("press 0~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    Power off");
+			
+			try{
+			    num = Integer.parseInt(scan.nextLine());
+			}catch (NumberFormatException ex) {
+			    num = 3;
+			}
+			
+			if ( 2 < num ||  num < 1) {
+				num = 3;
+			}
+			
 			
 			
 			switch (num) {
@@ -28,12 +38,19 @@ public class BankMainDriver {
 				employee1.EmployeeMenu();
 				break;
 			case 3:
-				System.out.println("shut up");
+				System.out.println("Please enter a valid number \n\n\n\n\n");try { 
+	                Thread.sleep(1000); 
+	            } 
+	            catch (Exception e) { 
+	                System.out.println(e); 
+	            } 
 				break;
-			default:
-				System.out.println("bye bye");
+//			default:
+//				System.out.println("Please enter a valid number");
 
 			}
+			
+			
 		} while ( num==1 || num==2 || num ==3);
 		
 		

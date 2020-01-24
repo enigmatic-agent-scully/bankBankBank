@@ -30,19 +30,48 @@ class Account implements Serializable {
 
 	@Override
 	public String toString() {
+		return "Acount [name=" + name + ", age=" + age + ", a=" + a + ", b = " + b + " ]";
+	}
+
+}
+
+
+@SuppressWarnings("serial")
+class Employee implements Serializable {
+	
+	
+	int a;
+	int b;
+	String name;
+	int age;
+
+	
+
+	// Default constructor
+	public Employee(String name, int age, int a, int b) {
+		this.name = name;
+		this.age = age;
+		this.a = a;
+		this.b = b;
+	}
+
+	@Override
+	public String toString() {
 		return "Employee [name=" + name + ", age=" + age + ", a=" + a + ", b = " + b + " ]";
 	}
 
 }
 
-public class SerialExample {
-	public static void printdata(Account object1) {
 
-		System.out.println("name = " + object1.name);
-		System.out.println("age = " + object1.age);
-		System.out.println("a = " + object1.a);
-		System.out.println("b = " + object1.b);
-	}
+
+public class SerialExample {
+//	public static void printdata(Account object1) {
+//
+//		System.out.println("name = " + object1.name);
+//		System.out.println("age = " + object1.age);
+//		System.out.println("a = " + object1.a);
+//		System.out.println("b = " + object1.b);
+//	}
 
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
@@ -53,9 +82,26 @@ public class SerialExample {
 		al.add(new Account("da ming", 32, 8, 10));
 		al.add(new Account("xiao huoji", 32, 8, 10));
 		al.add(new Account("xiao qingting", 32, 8, 10));
+		
+		
+		ArrayList<Employee> el = new ArrayList<Employee>();
+		el.add( new Employee("刘德华", 32, 8, 10) );
+		el.add( new Employee("陈伟霆", 32, 8, 10) );
+		el.add( new Employee("张学友", 32, 8, 10) );
+		el.add( new Employee("郭富城", 32, 8, 10) );
+		el.add( new Employee("热依扎", 32, 8, 10) );
+		el.add( new Employee("华晨宇", 32, 8, 10) );
+		el.add( new Employee("周杰伦", 32, 8, 10) );
+		el.add( new Employee("邓紫棋", 32, 8, 10) );
+		el.add( new Employee("黎明", 32, 8, 10) );
+		
+		
+		
+		
+		
 
 		// String filename = "/Users/jinjunzhen/desktop/BankExcel.txt";
-		String filename = "C:\\Users\\AJ\\code\\revature\\aj_workspace\\WriteToPositionTest\\temp.ser";
+		String filename = "Data.txt";
 		// Serialization
 		try {
 
@@ -65,6 +111,7 @@ public class SerialExample {
 
 			// Method for serialization of object
 			out.writeObject(al);
+			out.writeObject(el);
 
 			out.close();
 			file.close();
@@ -88,6 +135,7 @@ public class SerialExample {
 
 			// Method for deserialization of object
 			al = (ArrayList<Account>) in.readObject();
+			el = (ArrayList<Employee>) in.readObject();
 
 			in.close();
 			file.close();
@@ -106,6 +154,9 @@ public class SerialExample {
 
 		for (Account eachAcct : al) {
 			System.out.println(eachAcct);
+		}
+		for (Employee eachEmployee : el) {
+			System.out.println(eachEmployee);
 		}
 
 	}
