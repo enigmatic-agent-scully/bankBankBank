@@ -3,18 +3,18 @@ package com.aj;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class UserEnterance {
+public class CustomerEntrance {
 	public static Scanner scan = new Scanner(System.in);
 
-	UserEnterance() {
+	CustomerEntrance() {
 	};
 
-	public void UserMenu1() {
+	public void CustomerMenu1() {
 
 		int num;
 		do {
 
-			System.out.println("Welcome to user menu  \n\n");
+			System.out.println("\nWelcome to customer menu:\n");
 			System.out.println("press 1 ~ to login");
 			System.out.println("press 2 ~ to register");
 
@@ -33,12 +33,14 @@ public class UserEnterance {
 
 			switch (num) {
 			case 1:
-				System.out.println("Login function goes here");
-				// user.login();
+				System.out.println("customer.login();");
+				// customer.login();
+				num = 4;
 				break;
 			case 2:
-				System.out.println("Register function goes here");
-				// user.register();
+				System.out.println("customer.register();");
+				// customer.register();
+				num = 4;
 				break;
 			case 3:
 				System.out.println("Please choose a valid number \n\n\n\n\n");

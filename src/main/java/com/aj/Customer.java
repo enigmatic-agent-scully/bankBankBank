@@ -5,7 +5,6 @@ public class Customer extends User {
 	private BankAccount account1;
 	private BankAccount account2;
 	
-	
 	public BankAccount getAccount1() {
 		return account1;
 	}
@@ -30,7 +29,5 @@ public class Customer extends User {
 	public void setlName(String lName) {
 		this.lName = lName;
 	}
-	
-	
 	
 }

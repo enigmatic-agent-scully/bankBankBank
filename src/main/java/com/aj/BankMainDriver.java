@@ -27,12 +27,14 @@ public class BankMainDriver {
 
 			switch (num) {
 			case 1:
-				UserEnterance user1 = new UserEnterance();
-				user1.UserMenu1();
+				CustomerEntrance user1 = new CustomerEntrance();
+				user1.CustomerMenu1();
+				num = 4;
 				break;
 			case 2:
-				EmployeeEnterance employee1 = new EmployeeEnterance();
+				EmployeeEntrance employee1 = new EmployeeEntrance();
 				employee1.EmployeeMenu();
+				num = 4;
 				break;
 			case 3:
 				System.out.println("Please enter a valid number \n\n\n\n\n");
