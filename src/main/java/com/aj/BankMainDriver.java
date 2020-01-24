@@ -2,11 +2,15 @@ package com.aj;
 
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class BankMainDriver {
 	public static Scanner scan = new Scanner(System.in);
+	public static Logger LOGGER = LogManager.getLogger(BankMainDriver.class);
 
 	public static void main(String[] args) {
-
+		LOGGER.info("message");
 		int num;
 		do {
 

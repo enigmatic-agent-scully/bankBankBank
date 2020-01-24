@@ -34,12 +34,12 @@ public class CustomerEntrance {
 			switch (num) {
 			case 1:
 				System.out.println("customer.login();");
-				// customer.login();
+				customerLoginMenu();
 				num = 4;
 				break;
 			case 2:
-				System.out.println("customer.register();");
-				// customer.register();
+				System.out.println("customerRegisterMenu();");
+				customerRegisterMenu();
 				num = 4;
 				break;
 			case 3:
@@ -53,6 +53,48 @@ public class CustomerEntrance {
 			}
 		} while (num == 1 || num == 2 || num == 3);
 
+	}
+	
+	public static String[] customerLoginMenu() {
+		
+		String[] custCredentials = new String[2];
+		System.out.println("Please enter your username:");
+		String username = scan.nextLine();
+		System.out.println("Please enter your password:");
+		String pw = scan.nextLine();
+		custCredentials[0] = username;
+		custCredentials[1] = pw;
+		
+		return custCredentials;
+		
+	}
+	@SuppressWarnings("unused")
+	public static String[] customerRegisterMenu() {
+		//call file contents
+		
+		String[] customerRegisterInfo = new String[3];
+		System.out.println("Please enter your desired username:");
+
+		String username = scan.nextLine();
+		String pw = "";
+		String pwConfirm = "";
+		//check if username exists
+		// 	if(fileContents.contains(username) {
+		//		System.out.println("This username is not available. Please choose another username.");
+		//		}
+		//	else {
+		//		customerRegisterInfo[0] = username;
+		//		System.out.println("Please enter your desired password:");
+		//		pw = scan.nextLine();
+		//		
+		//		System.out.println("Please confirm the password you entered:");
+		//		pwConfirm = scan.nextLine();
+		//		
+		//		if (pw == pwConfirm) {
+		//			customerRegisterInfo[1] = pw;
+		//			}
+		//		}		
+		return customerRegisterInfo;
 	}
 
 }
