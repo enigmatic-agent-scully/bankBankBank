@@ -1,21 +1,21 @@
 package com.aj;
 
 public class BankAccount {
-	private int custId, balance1, balance2;
+	private int accNum, balance1, balance2;
 
 	public BankAccount() {
 	}
 
-	public BankAccount(int custId) {
-		this.custId = custId;
+	public BankAccount(int accNum) {
+		this.accNum = accNum;
 	}
 
-	public int getCustId() {
-		return custId;
+	public int getAccNum() {
+		return accNum;
 	}
 
-	public void setCustId(int custId) {
-		this.custId = custId;
+	public void setAccNum(int custId) {
+		this.accNum = accNum;
 	}
 
 	public int getBalance1() {
