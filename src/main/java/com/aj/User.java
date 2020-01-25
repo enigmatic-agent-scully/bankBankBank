@@ -1,37 +1,73 @@
 package com.aj;
 
-public class User {
-	private String username, pw, id;
+import java.io.Serializable;
+
+public class User implements Serializable {
+	private long acctID;
 	
-	public User() {}
+	private boolean activated;
 	
-	public User(String username, String pw, String id) {
-		this.username = username;
-		this.pw = pw;
-		this.id = id;
+	private String userName1, pw1, userName2, pw2;
+	
+
+	
+	public User(String userName1, String pw1, String userName2, String pw2) throws Throwable {
+		UserHelper uh = new UserHelper();
+		this.userName1 = userName1;
+		this.pw1 = pw1;
+		this.userName2 = userName2;
+		this.pw2 = pw2;
+		this.activated = false;
+		this.acctID = uh.getNewID();
+	}
+	
+	public User(String userName1, String pw1) throws Throwable {
+		UserHelper uh = new UserHelper();
+		this.userName1 = userName1;
+		this.pw1 = pw1;
+		this.userName2 = "N/A";  
+		this.pw2 = "N/A";  
+		this.activated = false;
+		this.acctID = uh.getNewID();
 	}
 
-	public String getUsername() {
-		return username;
+	public long getUserID() {
+		return acctID;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setAcctID(long acctID) {
+		this.acctID = acctID;
 	}
 
-	public String getPw() {
-		return pw;
+	public boolean isActivated() {
+		return activated;
 	}
 
-	public void setPw(String pw) {
-		this.pw = pw;
+	public void setActivated(boolean activated) {
+		this.activated = activated;
 	}
 
-	public String getId() {
-		return id;
+	public String getPw1() {
+		return pw1;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setPw1(String pw1) {
+		this.pw1 = pw1;
 	}
+
+	public String getPw2() {
+		return pw2;
+	}
+
+	public void setPw2(String pw2) {
+		this.pw2 = pw2;
+	}
+
+	@Override
+	public String toString() {
+		return "User [acctID=" + acctID + ", activated=" + activated + ", userName1=" + userName1 + ", pw1=" + pw1
+				+ ", userName2=" + userName2 + ", pw2=" + pw2 + "]";
+	}
+	
+	
 }

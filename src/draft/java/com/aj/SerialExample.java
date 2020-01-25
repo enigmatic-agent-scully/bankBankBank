@@ -27,6 +27,14 @@ class Account implements Serializable {
 		this.a = a;
 		this.b = b;
 	}
+	
+	
+
+	public String getName() {
+		return name;
+	}
+
+
 
 	@Override
 	public String toString() {
@@ -37,7 +45,7 @@ class Account implements Serializable {
 
 
 @SuppressWarnings("serial")
-class Employee implements Serializable {
+class Employeee implements Serializable {
 	
 	
 	int a;
@@ -48,7 +56,7 @@ class Employee implements Serializable {
 	
 
 	// Default constructor
-	public Employee(String name, int age, int a, int b) {
+	public Employeee(String name, int age, int a, int b) {
 		this.name = name;
 		this.age = age;
 		this.a = a;
@@ -76,6 +84,9 @@ public class SerialExample {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		ArrayList<Account> al = new ArrayList<Account>();
+		Account haha = new Account("bear", 32, 8, 10);
+		al.add(haha);
+		
 		al.add(new Account("jinjun zhen", 32, 8, 10));
 		al.add(new Account("xiao pengyou", 32, 8, 10));
 		al.add(new Account("xiao ming", 32, 8, 10));
@@ -96,6 +107,11 @@ public class SerialExample {
 		el.add( new Employee("黎明", 32, 8, 10) );
 		
 		
+		
+		for (Account eachAcct : al) {
+			if(eachAcct.getName() != null && eachAcct.getName().contains("jinjun zhen"))
+				System.out.println("yes, good job");
+		}
 		
 		
 		
