@@ -61,12 +61,11 @@ public class EmployeeEntrance {
 
 
 		do {
-
 			flag = true;
 			System.out.println("\n\n\nWelcome to the Employee menu:\n");
 			System.out.println("press 1 ~ to login");
 			System.out.println("press 2 ~ to register");
-			System.out.println("press 4 ~ get back to main page");
+			System.out.println("press 0 ~ get back to main page");
 
 			try {
 				num = Integer.parseInt(scan.nextLine());
@@ -77,7 +76,7 @@ public class EmployeeEntrance {
 				num = 3;
 			}
 
-			if (2 < num || num < 1) {
+			if (2 < num || num < 0) {
 				num = 3;
 			}
 
@@ -104,7 +103,7 @@ public class EmployeeEntrance {
 					System.out.println(e);
 				}
 				break;
-			case 4:
+			case 0:
 				flag = false;
 				break;
 		
@@ -131,7 +130,7 @@ public class EmployeeEntrance {
 		
 		do {
 
-			flag = false;
+			flag = true;
 
 			System.out.println("enter name you want:"); 
 			temp1 = scan.nextLine();
@@ -157,7 +156,6 @@ public class EmployeeEntrance {
 			
 			createEmployeeAccount(temp1, temp2, yesNoTemp);
 			flag = false;
-			
 			
 		} while(flag);
 

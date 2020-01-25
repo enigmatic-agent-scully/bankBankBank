@@ -8,11 +8,18 @@ import org.apache.logging.log4j.Logger;
 public class BankMainDriver {
 	public static Scanner scan = new Scanner(System.in);
 	public static Logger LOGGER = LogManager.getLogger(BankMainDriver.class);
+	static int num;
+	static boolean flag;
+	static boolean yesNoTemp;
+	String temp1, temp2, temp3, temp4;
 
 	public static void main(String[] args) {
 		LOGGER.info("message");
-		int num;
+		
+		
+		
 		do {
+			flag = true;
 
 			System.out.println("Welcome to use OnePiece bank service  \n\n");
 			System.out.println("press 1 ~ for users");
@@ -52,7 +59,7 @@ public class BankMainDriver {
 //				System.out.println("Please enter a valid number");
 			}
 
-		} while (num == 1 || num == 2 || num == 3);
+		} while (flag);
 
 	}
 

@@ -12,8 +12,6 @@ public class Employee implements Serializable {
 	
 	private String name, pw;
 	private boolean isAdmin;
-	
-
 
 
 	public Employee(String temp1, String temp2, boolean admin) {
@@ -21,7 +19,6 @@ public class Employee implements Serializable {
 		this.pw = temp2;
 		this.isAdmin = admin;
 	}
-
 
 
 	public boolean isAdmin() {
@@ -54,7 +51,6 @@ public class Employee implements Serializable {
 	public String toString() {
 		return "Employee [name=" + name + ", pw=" + pw + ", isAdmin=" + isAdmin + "]";
 	}
-
 
 
 	
