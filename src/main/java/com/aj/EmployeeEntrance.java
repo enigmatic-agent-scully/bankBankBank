@@ -1,17 +1,65 @@
 package com.aj;
 
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class EmployeeEntrance {
 	public static Scanner scan = new Scanner(System.in);
+	public static ArrayList<User> users = new ArrayList<User>();
+	public static ArrayList<Employee> employees = new ArrayList<Employee>();
+	private static final String filename = "Data.txt";
+	int num;
+	boolean flag, yesNoTemp;
+	String temp1, temp2, temp3, temp4;
 
 	EmployeeEntrance() {
 	};
 
 	public void EmployeeMenu() {
 
-		int num;
+///////////////////////////////////////////////////////////////////////////////////
+		//comment this block when you need to recreat the Data.txt
+		//    -----   start ---------
+				try {
+		
+					// Reading the object from a file
+					FileInputStream file = new FileInputStream(filename);
+					ObjectInputStream in = new ObjectInputStream(file);
+		
+					// Method for deserialization of object
+					
+					employees = (ArrayList<Employee>) in.readObject();
+					//users = (ArrayList<User>) in.readObject();
+		
+					in.close();
+					file.close();
+					//System.out.println("Object has been deserialized\n" + "Data after Deserialization.");
+		
+					
+				} catch (IOException ex) {
+					System.out.println("IOException is caught");
+				}
+		
+				catch (ClassNotFoundException ex) {
+					System.out.println("ClassNotFoundException" + " is caught");
+				}
+				
+				
+				// just a reference;
+				for (Employee eachEmployee : employees) {
+					System.out.println(eachEmployee);
+				}
+//			    -----   end ---------
+///////////////////////////////////////////////////////////////////////////////////
+
+
 		do {
 
 			System.out.println("\n\n\nWelcome to the Employee menu:\n");
@@ -32,14 +80,19 @@ public class EmployeeEntrance {
 			}
 
 			switch (num) {
+			
 			case 1:
 				employeeLoginMenu();
-				num = 4;
 				break;
 			case 2:
-				System.out.println("employee.register();");
-				// employee.register();
-				num = 4;
+				//~~~~~~~~~~~~~~~~~~ to    employee.register 
+				try {
+					employeeRregister();
+				} catch (Throwable e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 				break;
 			case 3:
 				System.out.println("Please choose a valid number \n\n\n\n\n");
@@ -66,32 +119,75 @@ public class EmployeeEntrance {
 		return employeeCredentials;
 
 	}
-	@SuppressWarnings("unused")
-	public static String[] employeeRegisterMenu() {
-		//call file contents
+
+	public void employeeRregister() {
+
 		
-		String[] employeeRegisterInfo = new String[3];
-		System.out.println("Please enter your desired username:");
-		String username = scan.nextLine();
-		String pw = "";
-		String pwConfirm = "";
-		//check if username exists
-		// 	if(fileContents.contains(username) {
-		//		System.out.println("This username is not available. Please choose another username.");
-		//		}
-		//	else {
-		//		employeeRegisterInfo[0] = username;
-		//		System.out.println("Please enter your desired password:");
-		//		pw = scan.nextLine();
-		//		
-		//		System.out.println("Please confirm the password you entered:");
-		//		pwConfirm = scan.nextLine();
-		//		
-		//		if (pw == pwConfirm) {
-		//			employeeRegisterInfo[1] = pw;
-		//			}
-		//		}		
-		return employeeRegisterInfo;
+		do {
+
+			flag = false;
+
+			System.out.println("enter name you want:"); 
+			temp1 = scan.nextLine();
+			System.out.println("enter password you want:");
+			temp2 = scan.nextLine();
+			System.out.println("please confirm your password:");
+			temp3 = scan.nextLine();
+			System.out.println();
+			
+			System.out.println("r u admin ?    (Y/N)");
+			temp4 = scan.nextLine();
+
+			if ( temp4.toUpperCase().contentEquals("YES") || temp4.toUpperCase().contentEquals("Y")) {
+				yesNoTemp = true; 
+			} else {
+				yesNoTemp = false;
+			}
+			
+			if (!temp2.contentEquals(temp3)) {
+				System.out.println("your pass doesn't match~ ");
+				continue;
+			}
+			
+			createEmployeeAccount(temp1, temp2, yesNoTemp);
+			
+		} while(true);
+
+
 	}
 
+	private void createEmployeeAccount(String temp1, String temp2, boolean admin)  {
+		
+		try {
+			employees.add(  new Employee (temp1, temp2, admin)  );
+			
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+
+			// Saving of object in a file
+			FileOutputStream file = new FileOutputStream(filename);
+			ObjectOutputStream out = new ObjectOutputStream(file);
+
+			// Method for serialization of object
+			out.writeObject(employees);
+//			out.writeObject(users);
+
+			out.close();
+			file.close();
+			
+			//if create successful jump back to employee menu
+
+			
+		}
+
+		catch (IOException ex) {
+			System.out.println("IOException is caught");
+		}
+
+
+	}
 }

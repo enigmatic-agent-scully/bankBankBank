@@ -33,12 +33,12 @@ public class BankMainDriver {
 			case 1:
 				CustomerEntrance user1 = new CustomerEntrance();
 				user1.CustomerMenu1();
-				num = 4;
+				
 				break;
 			case 2:
 				EmployeeEntrance employee1 = new EmployeeEntrance();
 				employee1.EmployeeMenu();
-				num = 4;
+				
 				break;
 			case 3:
 				System.out.println("Please enter a valid number \n\n\n\n\n");

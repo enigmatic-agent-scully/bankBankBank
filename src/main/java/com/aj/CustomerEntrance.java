@@ -1,15 +1,53 @@
 package com.aj;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
 public class CustomerEntrance {
 	public static Scanner scan = new Scanner(System.in);
+	public static ArrayList<User> users = new ArrayList<User>();
+	public static ArrayList<Employee> employees = new ArrayList<Employee>();
+	private static final String filename = "Data.txt";
+	
 
 	CustomerEntrance() {
 	};
 
 	public void CustomerMenu1() {
+		
+		
+		try {
+
+			// Reading the object from a file
+			FileInputStream file = new FileInputStream(filename);
+			ObjectInputStream in = new ObjectInputStream(file);
+
+			// Method for deserialization of object
+			users = (ArrayList<User>) in.readObject();
+			employees = (ArrayList<Employee>) in.readObject();
+
+			in.close();
+			file.close();
+			//System.out.println("Object has been deserialized\n" + "Data after Deserialization.");
+
+			
+		} catch (IOException ex) {
+			System.out.println("IOException is caught");
+		}
+
+		catch (ClassNotFoundException ex) {
+			System.out.println("ClassNotFoundException" + " is caught");
+		}
+		
+		
+		
+		
+		
 
 		int num;
 		do {
