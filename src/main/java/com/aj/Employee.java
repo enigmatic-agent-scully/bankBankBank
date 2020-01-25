@@ -1,25 +1,23 @@
 package com.aj;
 
-public class Employee {
+import java.io.Serializable;
+
+public class Employee implements Serializable {
 	
-	private long EmployeeID;
 	
-	private boolean isAdmin;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7010359379959591260L;
 	
 	private String name, pw;
-	
-	
-	Employee(String name, String pw, boolean isAdmin) throws Throwable {
-		EmployeeHelper eh = new EmployeeHelper();
-		this.name = name;
-		this.pw = pw;
-		this.EmployeeID = eh.getNewID();
-	}
-	
-	
-	public long getEmployeeID () {
-		
-		return EmployeeID;
+	private boolean isAdmin;
+
+
+	public Employee(String temp1, String temp2, boolean admin) {
+		this.name = temp1;
+		this.pw = temp2;
+		this.isAdmin = admin;
 	}
 
 
@@ -48,11 +46,13 @@ public class Employee {
 	}
 
 
-	public void setEmployeeID(long employeeID) {
-		EmployeeID = employeeID;
+
+	@Override
+	public String toString() {
+		return "Employee [name=" + name + ", pw=" + pw + ", isAdmin=" + isAdmin + "]";
 	}
-	
-	
+
+
 	
 
 }
