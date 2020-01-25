@@ -62,9 +62,11 @@ public class EmployeeEntrance {
 
 		do {
 
+			flag = true;
 			System.out.println("\n\n\nWelcome to the Employee menu:\n");
 			System.out.println("press 1 ~ to login");
 			System.out.println("press 2 ~ to register");
+			System.out.println("press 4 ~ get back to main page");
 
 			try {
 				num = Integer.parseInt(scan.nextLine());
@@ -102,8 +104,12 @@ public class EmployeeEntrance {
 					System.out.println(e);
 				}
 				break;
+			case 4:
+				flag = false;
+				break;
+		
 			}
-		} while (num == 1 || num == 2 || num == 3);
+		} while (flag);
 	}
 
 	public static String[] employeeLoginMenu() {
@@ -150,8 +156,10 @@ public class EmployeeEntrance {
 			}
 			
 			createEmployeeAccount(temp1, temp2, yesNoTemp);
+			flag = false;
 			
-		} while(true);
+			
+		} while(flag);
 
 
 	}
