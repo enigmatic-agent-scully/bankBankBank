@@ -3,32 +3,36 @@ package com.aj;
 import java.io.Serializable;
 
 public class User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private long acctID;
 	
-	private boolean activated;
+	private boolean activated, isJoint;
 	
 	private String userName1, pw1, userName2, pw2;
 	
 
 	
 	public User(String userName1, String pw1, String userName2, String pw2) throws Throwable {
-		UserHelper uh = new UserHelper();
 		this.userName1 = userName1;
 		this.pw1 = pw1;
 		this.userName2 = userName2;
 		this.pw2 = pw2;
 		this.activated = false;
-		this.acctID = uh.getNewID();
+		this.isJoint = true;
 	}
 	
 	public User(String userName1, String pw1) throws Throwable {
-		UserHelper uh = new UserHelper();
 		this.userName1 = userName1;
 		this.pw1 = pw1;
 		this.userName2 = "N/A";  
 		this.pw2 = "N/A";  
 		this.activated = false;
-		this.acctID = uh.getNewID();
+		this.isJoint = false;
+
 	}
 
 	public long getUserID() {
