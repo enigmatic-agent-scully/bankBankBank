@@ -27,46 +27,46 @@ public class BankMainDriver {
 /////////////////////////////////////////////////////////////
 		//---------   initialize User and Employee in the Data.txt
 		//  ---------     begin ---------
-//		
-//		try {
-//			employees.add(new Employee("emplyee admin", "password", true));
-//			employees.add(new Employee("emplyee normal", "password", false));
-//			users.add( new User("user Not-activated", "password"));
-//			User user2 = new User("user activated", "password");
-//			user2.setActivated(true);
-//			users.add( user2 );
-//			
-//
-//
-//		} catch (Throwable e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		try {
-//
-//			// Saving of object in a file
-//			FileOutputStream file = new FileOutputStream(filename);
-//			ObjectOutputStream out = new ObjectOutputStream(file);
-//
-//			// Method for serialization of object
-//			out.writeObject(employees);
-//			out.writeObject(users);
-//
-//			out.close();
-//			file.close();
-//
-//			// if create successful jump back to employee menu
-//
-//		} catch (IOException ex) {
-//			System.out.println("IOException is caught");
-//		}
+		
+		try {
+			employees.add(new Employee("admin", "password", true));
+			employees.add(new Employee("normal", "password", false));
+			users.add( new User("user1 Not-activated", "password","joint man","password2 ", true, 1));
+			User user2 = new User("user activated", "password","joint man","password2 ", false,  2);
+			user2.setActivated(true);
+			users.add( user2 );
+			
+
+
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+
+			// Saving of object in a file
+			FileOutputStream file = new FileOutputStream(filename);
+			ObjectOutputStream out = new ObjectOutputStream(file);
+
+			// Method for serialization of object
+			out.writeObject(employees);
+			out.writeObject(users);
+
+			out.close();
+			file.close();
+
+			// if create successful jump back to employee menu
+
+		} catch (IOException ex) {
+			System.out.println("IOException is caught");
+		}
+		
+		
 		//---------    end  ---------
 /////////////////////////////////////////////////////////////
 		
 
-		
-		
 		
 		do {
 			flag = true;

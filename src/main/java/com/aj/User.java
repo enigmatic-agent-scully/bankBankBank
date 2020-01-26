@@ -5,16 +5,19 @@ import java.io.Serializable;
 public class User implements Serializable{
 	
 	private static final long serialVersionUID = -7010359379959591260L;
-	private boolean isActivated, isJoint;
+	private long accountID;
+	private boolean canceleled, isActivated, isJoint;
 	private String name1, pw1, name2, pw2;
 	private double checking, saving, credit;
 	
 	User(){};
 
-	public User(String name1, String pw1) {
+	public User(String name1, String pw1, boolean isJoint, long accountID) {
 		super();
+		this.accountID = accountID;
+		
 		this.isActivated = false;
-		this.isJoint = false;
+		this.isJoint = isJoint;
 		this.name1 = name1;
 		this.pw1 = pw1;
 		this.name2 = "n/a";
@@ -22,12 +25,14 @@ public class User implements Serializable{
 		this.checking = 0d;
 		this.saving = 0d;
 		this.credit = 0d;
+		boolean cancelled = false;
 	}
 
-	public User(String name1, String pw1, String name2, String pw2) {
+	public User(String name1, String pw1, String name2, String pw2, boolean isJoint, long accountID) {
 		super();
+		this.accountID = accountID;
 		this.isActivated = false;
-		this.isJoint = true;
+		this.isJoint = isJoint;
 		this.name1 = name1;
 		this.pw1 = pw1;
 		this.name2 = name2;
@@ -35,6 +40,12 @@ public class User implements Serializable{
 		this.checking = 0d;
 		this.saving = 0d;
 		this.credit = 0d;
+		boolean cancelled = false;
+	}
+	
+
+	public long getAccountID() {
+		return accountID;
 	}
 
 	public boolean isActivated() {
@@ -109,12 +120,24 @@ public class User implements Serializable{
 		this.credit = credit;
 	}
 
+	public boolean isCanceleled() {
+		return canceleled;
+	}
+
+	public void setCanceleled(boolean canceleled) {
+		this.canceleled = canceleled;
+	}
+
 	@Override
 	public String toString() {
-		return "User [isActivated=" + isActivated + ", isJoint=" + isJoint + ", name1=" + name1 + ", pw1=" + pw1
-				+ ", name2=" + name2 + ", pw2=" + pw2 + ", checking=" + checking + ", saving=" + saving + ", credit="
-				+ credit + "]";
-	};
+		return "User [accountID=" + accountID + ", canceleled=" + canceleled + ", isActivated=" + isActivated
+				+ ", isJoint=" + isJoint + ", name1=" + name1 + ", pw1=" + pw1 + ", name2=" + name2 + ", pw2=" + pw2
+				+ ", checking=" + checking + ", saving=" + saving + ", credit=" + credit + "]";
+	}
+	
+	
+
+	
 	
 	
 	
