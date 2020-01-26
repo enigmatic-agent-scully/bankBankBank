@@ -15,8 +15,8 @@ public class UserEntrance {
 	public static ArrayList<User> users = new ArrayList<User>();
 	public static ArrayList<Employee> employees = new ArrayList<Employee>();
 	private static final String filename = "Data.txt";
-	int num;
-	boolean flag, yesNoTemp;
+	static int num;
+	static boolean flag, yesNoTemp;
 	
 
 	UserEntrance() {
@@ -25,30 +25,7 @@ public class UserEntrance {
 	public void userMenu() {
 
 
-		try {
-
-			// Reading the object from a file
-			FileInputStream file = new FileInputStream(filename);
-			ObjectInputStream in = new ObjectInputStream(file);
-
-			// Method for deserialization of object
-
-			employees = (ArrayList<Employee>) in.readObject();
-			users = (ArrayList<User>) in.readObject();
-			
-
-			in.close();
-			file.close();
-			// System.out.println("Object has been deserialized\n" + "Data after
-			// Deserialization.");
-
-		} catch (IOException ex) {
-			System.out.println("IOException is caught");
-		}
-
-		catch (ClassNotFoundException ex) {
-			System.out.println("ClassNotFoundException" + " is caught");
-		}
+		toLoad();
 
 		// just a reference;
 		for (User eachUser : users) {
@@ -79,7 +56,7 @@ public class UserEntrance {
 			switch (num) {
 
 			case 1:
-				userLoginMenu();
+				userLoginCheck();
 				break;
 			case 2:
 				// ~~~~~~~~~~~~~~~~~~ to employee.register
@@ -107,16 +84,21 @@ public class UserEntrance {
 		} while (flag);
 	}
 
-	public static void userLoginMenu() {
-		String temp1, temp2;
-		
-		System.out.println(" log in with user name and pass word ");
-		System.out.println("user name:");
-		temp1 = scan.nextLine();
-		System.out.println("pass word:");
-		temp1 = scan.nextLine();
+	public static void userLoginCheck() {
+		String name1, pw1;
+		long acctID;
 		
 
+		System.out.println(" log in with user name and pass word ");
+		System.out.println("user name:");
+		name1 = scan.nextLine();
+		System.out.println("pass word:");
+		pw1 = scan.nextLine();
+		
+		acctID = checkToLogin(name1, pw1);
+		if ( acctID != -1 ) {
+			userMenu(acctID);
+		}
 	}
 
 	
@@ -169,6 +151,7 @@ public class UserEntrance {
 				System.out.println(" your account has been initialized");
 				delayTime(5);
 				flag = false;
+				
 			} else {
 
 				System.out.println("enter user1 login name:");
@@ -184,7 +167,8 @@ public class UserEntrance {
 				}
 				
 				if (checkUseable(name1) == false) {
-					System.out.println("user name already exist");
+
+					
 					continue;
 				}
 				createUserAccount(name1, pw1, "n/a", "n/a", false);
@@ -193,8 +177,222 @@ public class UserEntrance {
 				flag = false;
 			}
 		} while (flag);
-
 	}
+	
+	private static void userMenu(long accountID) {
+		int accountIndex = 0;
+		flag = true;
+		
+		for (int i = 0; i< users.size(); i++) {
+			if (users.get(i).getAccountID() == accountID ) {
+				accountIndex = i;
+			}
+		}
+		
+		do {
+			System.out.println("-------------------------------------------------");
+			System.out.println("your account balance are as follow:");
+			System.out.println("-------------------------------------------------");
+			System.out.println("checking " + users.get(accountIndex).getChecking());
+			System.out.println("saving " + users.get(accountIndex).getSaving());
+			System.out.println("checking " + users.get(accountIndex).getCredit());
+			System.out.println("which account you want to withdraw from?");
+			
+			System.out.println("press 1 ~~~~~~~~~~~~~~~~~~withdraw");
+			System.out.println("press 2 ~~~~~~~~~~~~~~~~~~deposit");
+			System.out.println("press 3 ~~~~~~~~~~~~~~~~~~transfer");
+			System.out.println("press 0 ~~~~~~~~~~~~~~~~~~main menu");
+			
+			try {
+				num = Integer.parseInt(scan.nextLine());
+				System.out.println("you select "+ num);
+				delayTime(5);
+			} catch (NumberFormatException ex) {
+				num = 4;
+			}
+			
+			switch (num) {
+			case 1:
+				userWithdraw(accountIndex);
+				delayTime(5);
+				break;
+			case 2:
+				
+				userDeposit(accountIndex);
+				System.out.println("userWithdraw action");
+				delayTime(5);
+				
+				break;
+			case 3:
+				TransferFromUser tf = new TransferFromUser();
+				tf.transferMenu(accountIndex);
+				System.out.println("userWithdraw action");
+				delayTime(5);
+
+				break;
+			case 4:
+				System.out.println("please enter valid number");
+				delayTime(5);
+			case 0: 
+				flag = false;
+			}	
+			
+		} while (flag);
+	}
+	
+	
+	private static void userWithdraw(int accountIndex ) {
+		flag = true;
+		double money;
+		double balance;
+		
+		do {
+			flag = true;
+			System.out.println("-------------------------------------------------");
+			System.out.println("your account balance are as follow:");
+			System.out.println("-------------------------------------------------");
+			System.out.println("checking " + users.get(accountIndex).getChecking());
+			System.out.println("saving " + users.get(accountIndex).getSaving());
+			System.out.println("checking " + users.get(accountIndex).getCredit());
+			System.out.println("-------------------------------------------------");
+			
+			
+			System.out.println("1~  checking");
+			System.out.println("2~  saving");
+			System.out.println("3~  credit");
+			System.out.println("0~  main menu");
+			
+			
+			try {
+				num = Integer.parseInt(scan.nextLine());
+				System.out.println("you select "+ num);
+			} catch (NumberFormatException ex) {
+				num = 0;
+				flag = false;
+				return;
+			}
+			
+			if (3 < num || num < 0) {
+				System.out.println("please enter a valid number");
+				continue;
+			} else if(num ==0) {
+				return;
+			} else {
+				
+				do {
+					System.out.println("enter the amount you want to withdraw");
+					try {
+						money = Double.parseDouble(scan.nextLine());
+					} catch (NumberFormatException ex) {
+						money = 0;
+						
+						System.out.println("please enter valid amount ");
+						delayTime(3);
+					}
+				} while (money <  0);
+			}
+			
+			if (num == 1) {
+				balance = users.get(accountIndex).getChecking();
+				balance -= money;
+				users.get(accountIndex).setChecking(balance);
+				toSave();
+			} else if (num == 2) {
+				balance = users.get(accountIndex).getSaving();
+				balance -= money;
+				users.get(accountIndex).setSaving(balance);
+				toSave();
+			} else if (num == 3) {
+				balance = users.get(accountIndex).getCredit();
+				balance -= money;
+				users.get(accountIndex).setCredit(balance);
+				toSave();
+			}	
+			
+		}while (flag);	
+	}
+	
+	
+	
+	private static void userDeposit(int accountIndex ) {
+		flag = true;
+		double money;
+		double balance;
+		
+		do {
+			flag = true;
+			System.out.println("-------------------------------------------------");
+			System.out.println("your account balance are as follow:");
+			System.out.println("-------------------------------------------------");
+			System.out.println("checking " + users.get(accountIndex).getChecking());
+			System.out.println("saving " + users.get(accountIndex).getSaving());
+			System.out.println("checking " + users.get(accountIndex).getCredit());
+			System.out.println("-------------------------------------------------");
+			
+			
+			System.out.println("1~  checking");
+			System.out.println("2~  saving");
+			System.out.println("3~  credit");
+			System.out.println("0~  main menu");
+			
+			
+			try {
+				num = Integer.parseInt(scan.nextLine());
+				System.out.println("you select "+ num);
+			} catch (NumberFormatException ex) {
+				num = 0;
+				flag = false;
+				return;
+			}
+			
+			if (3 < num || num < 0) {
+				System.out.println("please enter a valid number");
+				continue;
+			} else if(num ==0) {
+				return;
+			} else {
+				
+				do {
+					System.out.println("enter the amount you want to deposit");
+					try {
+						money = Double.parseDouble(scan.nextLine());
+					} catch (NumberFormatException ex) {
+						money = 0;
+						
+						System.out.println("please enter valid amount ");
+						delayTime(3);
+					}
+				} while (money <  0);
+			}
+			
+			if (num == 1) {
+				balance = users.get(accountIndex).getChecking();
+				balance += money;
+				users.get(accountIndex).setChecking(balance);
+				toSave();
+			} else if (num == 2) {
+				balance = users.get(accountIndex).getSaving();
+				balance += money;
+				users.get(accountIndex).setSaving(balance);
+				toSave();
+			} else if (num == 3) {
+				balance = users.get(accountIndex).getCredit();
+				balance += money;
+				users.get(accountIndex).setCredit(balance);
+				toSave();
+			}	
+			
+		}while (flag);	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	private void createUserAccount(String name1, String ps1, String name2, String pw2, boolean isJoint ) {
 
@@ -206,8 +404,75 @@ public class UserEntrance {
 			e.printStackTrace();
 		}
 
-		try {
 
+		toSave();
+
+	}
+
+	
+	public boolean checkUseable(String userName) {
+		System.out.println("check in useable");
+		
+		for (int i = 0; i< users.size(); i++) {
+			
+			if (users.get(i).getName1().contentEquals(userName) || users.get(i).getName2().contentEquals(userName)) {
+				delayTime(5);
+				System.out.println("[" + userName + "] "+ "alrady been taken");
+				System.out.println("please try other user name");
+				
+				return false;
+			}
+			
+		}
+		return true;
+	}
+	
+	public static long checkToLogin(String userName, String pw) {
+
+		for (int i = 0; i< users.size(); i++) {
+
+			if ((users.get(i).getName1().contentEquals(userName) && users.get(i).getPw1().contentEquals(pw) && users.get(i).isCanceleled()==false)
+			|| ( users.get(i).getName2().contentEquals(userName) && users.get(i).getPw2().contentEquals(pw) && users.get(i).isCanceleled()==false))
+			{
+				
+				System.out.print("log in processing ");
+				delayTime(5);
+				System.out.println("your account ID is " + users.get(i).getAccountID());
+				
+				if (users.get(i).isActivated()==true) {
+					return users.get(i).getAccountID();
+				} else {
+					System.out.println("your account is not activated");
+					delayTime(5);
+					System.out.println("please contact employee for further assistence");
+					return -1;
+				}
+			}
+
+		}
+		System.out.println("your usr name or password is not correct");
+		return -1;
+	}
+
+
+	
+	public static void delayTime(int count) {	
+
+		for (int i=0; i<count; i++) {
+
+			try {
+				Thread.sleep(500);
+				System.out.print(" .");
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+		System.out.println();
+	}
+	
+	public static void toSave(){
+		
+		try {
 			// Saving of object in a file
 			FileOutputStream file = new FileOutputStream(filename);
 			ObjectOutputStream out = new ObjectOutputStream(file);
@@ -224,39 +489,36 @@ public class UserEntrance {
 		} catch (IOException ex) {
 			System.out.println("IOException is caught");
 		}
-
-	}
-	
-	
-	
-	public boolean checkUseable(String userName) {
-		System.out.println("check in useable");
 		
-		for (int i = 0; i< users.size(); i++) {
+	}
+	
+	public static void toLoad() {
+		
+		try {
+
+			// Reading the object from a file
+			FileInputStream file = new FileInputStream(filename);
+			ObjectInputStream in = new ObjectInputStream(file);
+
+			// Method for deserialization of object
+
+			employees = (ArrayList<Employee>) in.readObject();
+			users = (ArrayList<User>) in.readObject();
 			
-			if (users.get(i).getName1().contentEquals(userName) || users.get(i).getName2().contentEquals(userName)) {
-				System.out.println(userName + "alrady been taken");
-				
-				return false;
-			}
-			
+
+			in.close();
+			file.close();
+			// System.out.println("Object has been deserialized\n" + "Data after
+			// Deserialization.");
+
+		} catch (IOException ex) {
+			System.out.println("IOException is caught");
 		}
-		return true;
+
+		catch (ClassNotFoundException ex) {
+			System.out.println("ClassNotFoundException" + " is caught");
+		}
 	}
 
-
-	public void delayTime(int count) {	
-
-		for (int i=0; i<count; i++) {
-
-			try {
-				Thread.sleep(500);
-				System.out.print(" .");
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-		}
-		System.out.println();
-	}
 }
 
