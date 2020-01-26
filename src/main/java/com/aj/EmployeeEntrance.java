@@ -16,14 +16,14 @@ public class EmployeeEntrance {
 	private static final String filename = "Data.txt";
 	int num;
 	boolean flag, yesNoTemp;
-	String temp1, temp2, temp3, temp4;
+	static boolean isLoggedIn;
+	public static Employee currentlyLoggedIn = null;
 
 	EmployeeEntrance() {
 	};
 
 	@SuppressWarnings("unchecked")
 	public void EmployeeMenu() {
-
 
 		try {
 
@@ -38,8 +38,6 @@ public class EmployeeEntrance {
 
 			in.close();
 			file.close();
-			// System.out.println("Object has been deserialized\n" + "Data after
-			// Deserialization.");
 
 		} catch (IOException ex) {
 			System.out.println("IOException is caught");
@@ -53,7 +51,6 @@ public class EmployeeEntrance {
 		for (Employee eachEmployee : employees) {
 			System.out.println(eachEmployee);
 		}
-
 
 		do {
 			flag = true;
@@ -106,21 +103,43 @@ public class EmployeeEntrance {
 		} while (flag);
 	}
 
-	public static String[] employeeLoginMenu() {
+	public static void employeeLoginMenu() {
+		boolean usernameFound = false;
+		isLoggedIn = false;
 
-		String[] employeeCredentials = new String[2];
 		System.out.println("Please enter your username:");
 		String username = scan.nextLine();
+
+		for (Employee e : employees) {
+			if (e.getName().contentEquals(username)) {
+				usernameFound = true;
+			}
+		}
+		if (!usernameFound) {
+			System.out.println("The username you entered does not match our records. Please try again.");
+			username = scan.nextLine();
+			for (Employee e : employees) {
+				if (e.getName().contentEquals(username)) {
+					usernameFound = true;
+				}
+			}
+		}
 		System.out.println("Please enter your password:");
 		String pw = scan.nextLine();
-		employeeCredentials[0] = username;
-		employeeCredentials[1] = pw;
 
-		return employeeCredentials;
+		for (Employee e : employees) {
+			if (e.getName().contentEquals(username) && e.getPw().contentEquals(pw)) {
+				isLoggedIn = true;
+				currentlyLoggedIn = e;
+			}
+		}
+		System.out.println("\nLogin successful!\nYou are currently logged in as " + currentlyLoggedIn.getName());
 
+		displayEmployeeUI(currentlyLoggedIn.isAdmin());
 	}
 
 	public void employeeRregister() {
+		String temp1, temp2, temp3, temp4;
 
 		do {
 
@@ -148,7 +167,13 @@ public class EmployeeEntrance {
 				continue;
 			}
 
+			if (checkUsable(temp1) == false) {
+				System.out.println(temp1 + " is already in use.");
+				continue;
+			}
+
 			createEmployeeAccount(temp1, temp2, yesNoTemp);
+			System.out.println(" your account has been initialized");
 			delayTime(5);
 			flag = false;
 
@@ -186,9 +211,41 @@ public class EmployeeEntrance {
 		}
 
 	}
-	public void delayTime(int count) {	
 
-		for (int i=0; i<count; i++) {
+	public static void displayEmployeeUI(boolean isAdmin) {
+		System.out.println("\nWelcome to the Employee Interface.\n\n");
+		if (isAdmin) {
+			for (User u : users) {
+				System.out.println(u);
+			}
+		} else {
+			for (User u : users) {
+				if (u.isActivated()) {
+					System.out.print("Account ID: " + u.getAccountID() + " | ");
+					System.out.print("Primary Account Holder: " + u.getName1() + " | ");
+					if (!u.getName2().contentEquals("n/a")) {
+						System.out.print("Secondary Account Holder: " + u.getName2());
+					}
+				}
+			}
+		}
+	}
+
+	public boolean checkUsable(String username) {
+		System.out.println("Checking if username is available");
+
+		for (int i = 0; i < employees.size(); i++) {
+			if (employees.get(i).getName().contentEquals(username)) {
+				System.out.println(username + " has already been taken. Please choose another username.");
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public void delayTime(int count) {
+
+		for (int i = 0; i < count; i++) {
 
 			try {
 				Thread.sleep(500);

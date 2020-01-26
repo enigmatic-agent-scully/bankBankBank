@@ -130,7 +130,7 @@ public class User implements Serializable{
 
 	@Override
 	public String toString() {
-		return "User [accountID=" + accountID + ", canceleled=" + canceleled + ", isActivated=" + isActivated
+		return "User [accountID=" + accountID + ", cancelled=" + canceleled + ", isActivated=" + isActivated
 				+ ", isJoint=" + isJoint + ", name1=" + name1 + ", pw1=" + pw1 + ", name2=" + name2 + ", pw2=" + pw2
 				+ ", checking=" + checking + ", saving=" + saving + ", credit=" + credit + "]";
 	}
