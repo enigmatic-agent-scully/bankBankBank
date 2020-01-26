@@ -9,20 +9,19 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class EmployeeEntrance {
+public class UserEntrance {
 	public static Scanner scan = new Scanner(System.in);
 	public static ArrayList<User> users = new ArrayList<User>();
 	public static ArrayList<Employee> employees = new ArrayList<Employee>();
 	private static final String filename = "Data.txt";
 	int num;
 	boolean flag, yesNoTemp;
-	String temp1, temp2, temp3, temp4;
+	String temp1, temp2, temp3, temp4, temp5, temp6;
 
-	EmployeeEntrance() {
+	UserEntrance() {
 	};
 
-	@SuppressWarnings("unchecked")
-	public void EmployeeMenu() {
+	public void userMenu() {
 
 
 		try {
@@ -50,8 +49,8 @@ public class EmployeeEntrance {
 		}
 
 		// just a reference;
-		for (Employee eachEmployee : employees) {
-			System.out.println(eachEmployee);
+		for (User eachUser : users) {
+			System.out.println(eachUser);
 		}
 
 
@@ -83,7 +82,7 @@ public class EmployeeEntrance {
 			case 2:
 				// ~~~~~~~~~~~~~~~~~~ to employee.register
 				try {
-					employeeRregister();
+					userRregister();
 				} catch (Throwable e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -120,45 +119,71 @@ public class EmployeeEntrance {
 
 	}
 
-	public void employeeRregister() {
+	public void userRregister() {
 
 		do {
 
 			flag = true;
 
-			System.out.println("enter name you want:");
-			temp1 = scan.nextLine();
-			System.out.println("enter password you want:");
-			temp2 = scan.nextLine();
-			System.out.println("please confirm your password:");
-			temp3 = scan.nextLine();
-			System.out.println();
 
-			System.out.println("r u admin ?    (Y/N)");
+			System.out.println("solo account or joint account?    (S/J)");
 			temp4 = scan.nextLine();
-
-			if (temp4.toUpperCase().contentEquals("YES") || temp4.toUpperCase().contentEquals("Y")) {
+			System.out.println();
+			if (temp4.toUpperCase().contentEquals("J") || temp4.toUpperCase().contentEquals("JOINT")) {
 				yesNoTemp = true;
 			} else {
 				yesNoTemp = false;
 			}
 
-			if (!temp2.contentEquals(temp3)) {
-				System.out.println("your pass doesn't match~ ");
-				continue;
+
+
+			if (yesNoTemp) {
+
+				System.out.println("enter user1 login name:");
+				temp1 = scan.nextLine();
+				System.out.println("enter user1 password you want:");
+				temp2 = scan.nextLine();
+				System.out.println("please confirm your password:");
+				temp3 = scan.nextLine();
+
+				System.out.println("enter user2 login name:");
+				temp4 = scan.nextLine();
+				System.out.println("enter user2 password you want:");
+				temp5 = scan.nextLine();
+				System.out.println("please confirm your password:");
+				temp6 = scan.nextLine();
+
+				if ( !temp2.contentEquals(temp3) ||  !temp5.contentEquals(temp6) ) {
+					System.out.println("your pass doesn't match~ ");
+					continue;
+				}
+				
+				
+				createUserAccount(temp1, temp2, temp4, temp5, true);
+				
+			} else {
+
+				System.out.println("enter user1 login name:");
+				temp1 = scan.nextLine();
+				System.out.println("enter password you want:");
+				temp2 = scan.nextLine();
+				System.out.println("please confirm your password:");
+				temp3 = scan.nextLine();
+
+				if (!temp2.contentEquals(temp3)) {
+					System.out.println("your pass doesn't match~ ");
+					continue;
+				}
+				createUserAccount(temp1, temp2, "n/a", "n/a", false);
 			}
-
-			createEmployeeAccount(temp1, temp2, yesNoTemp);
-			flag = false;
-
 		} while (flag);
 
 	}
 
-	private void createEmployeeAccount(String temp1, String temp2, boolean admin) {
+	private void createUserAccount(String name1, String ps1, String name2, String pw2, boolean isJoint ) {
 
 		try {
-			employees.add(new Employee(temp1, temp2, admin));
+			users.add(new User(name1, ps1, name2, pw2, isJoint, users.size()+1));
 
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
