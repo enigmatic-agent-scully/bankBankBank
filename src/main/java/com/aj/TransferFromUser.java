@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TransferFromUser {
-	
+
 	public static Scanner scan = new Scanner(System.in);
 	public static ArrayList<User> users = new ArrayList<User>();
 	public static ArrayList<Employee> employees = new ArrayList<Employee>();
@@ -17,7 +17,7 @@ public class TransferFromUser {
 	static long accountID;
 	static int num;
 	static boolean flag, yesNoTemp;
-	
+
 	public void transferMenu(int accountIndex) {
 		
 		do {
@@ -30,7 +30,7 @@ public class TransferFromUser {
 				accountID = -1;
 			}
 			
-			checkAccountID(accountID)
+			checkAccountID(accountID);
 			
 			
 			
@@ -41,19 +41,20 @@ public class TransferFromUser {
 		
 
 	}
-	
-public static boolean checkAccountID(long accountID) {
-	
-	for (int i=0; i< users.size(); i++) {
-		if (users.get(i).getAccountID() == accountID) {
-			return true;
+
+	public static boolean checkAccountID(long accountID) {
+
+		for (int i = 0; i < users.size(); i++) {
+			if (users.get(i).getAccountID() == accountID) {
+				return true;
+			}
 		}
+		return false;
 	}
-	return false;
-}
-	
-public static void toLoad() {
-		
+
+	@SuppressWarnings("unchecked")
+	public static void toLoad() {
+
 		try {
 
 			// Reading the object from a file
@@ -64,7 +65,6 @@ public static void toLoad() {
 
 			employees = (ArrayList<Employee>) in.readObject();
 			users = (ArrayList<User>) in.readObject();
-			
 
 			in.close();
 			file.close();
@@ -80,26 +80,26 @@ public static void toLoad() {
 		}
 	}
 
-public static void toSave(){
-	
-	try {
-		// Saving of object in a file
-		FileOutputStream file = new FileOutputStream(filename);
-		ObjectOutputStream out = new ObjectOutputStream(file);
+	public static void toSave() {
 
-		// Method for serialization of object
-		out.writeObject(employees);
-		out.writeObject(users);
+		try {
+			// Saving of object in a file
+			FileOutputStream file = new FileOutputStream(filename);
+			ObjectOutputStream out = new ObjectOutputStream(file);
 
-		out.close();
-		file.close();
+			// Method for serialization of object
+			out.writeObject(employees);
+			out.writeObject(users);
 
-		// if create successful jump back to employee menu
+			out.close();
+			file.close();
 
-	} catch (IOException ex) {
-		System.out.println("IOException is caught");
+			// if create successful jump back to employee menu
+
+		} catch (IOException ex) {
+			System.out.println("IOException is caught");
+		}
+
 	}
-	
-}
 
 }

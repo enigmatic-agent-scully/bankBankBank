@@ -132,6 +132,10 @@ public class EmployeeEntrance {
 				isLoggedIn = true;
 				currentlyLoggedIn = e;
 			}
+			else {
+				System.out.println("The password you entered is incorrect. Please enter your password:");
+				pw = scan.nextLine();
+			}
 		}
 		System.out.println("\nLogin successful!\nYou are currently logged in as " + currentlyLoggedIn.getName());
 
@@ -215,6 +219,7 @@ public class EmployeeEntrance {
 	public static void displayEmployeeUI(boolean isAdmin) {
 		System.out.println("\nWelcome to the Employee Interface.\n\n");
 		if (isAdmin) {
+			System.out.println("Hello Admin.");
 			for (User u : users) {
 				System.out.println(u);
 			}
@@ -224,11 +229,17 @@ public class EmployeeEntrance {
 					System.out.print("Account ID: " + u.getAccountID() + " | ");
 					System.out.print("Primary Account Holder: " + u.getName1() + " | ");
 					if (!u.getName2().contentEquals("n/a")) {
-						System.out.print("Secondary Account Holder: " + u.getName2());
+						System.out.print("Secondary Account Holder: " + u.getName2() + " | ");
 					}
+					System.out.println("Checking Account Balance: $" + u.getChecking() + " | ");
+					System.out.println("Savings Account Balance: $" + u.getSaving());
 				}
 			}
 		}
+	}
+	
+	public void adminMenu() {
+		
 	}
 
 	public boolean checkUsable(String username) {

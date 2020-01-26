@@ -191,7 +191,7 @@ public class UserEntrance {
 		
 		do {
 			System.out.println("-------------------------------------------------");
-			System.out.println("your account balance are as follow:");
+			System.out.println("your account balances are as follow:");
 			System.out.println("-------------------------------------------------");
 			System.out.println("checking " + users.get(accountIndex).getChecking());
 			System.out.println("saving " + users.get(accountIndex).getSaving());
