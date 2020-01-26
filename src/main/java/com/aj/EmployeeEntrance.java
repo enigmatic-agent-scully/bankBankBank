@@ -24,9 +24,7 @@ public class EmployeeEntrance {
 	@SuppressWarnings("unchecked")
 	public void EmployeeMenu() {
 
-///////////////////////////////////////////////////////////////////////////////////
-		// comment this block when you need to recreate the Data.txt
-		// ----- start ---------
+
 		try {
 
 			// Reading the object from a file
@@ -36,7 +34,7 @@ public class EmployeeEntrance {
 			// Method for deserialization of object
 
 			employees = (ArrayList<Employee>) in.readObject();
-			// users = (ArrayList<User>) in.readObject();
+			users = (ArrayList<User>) in.readObject();
 
 			in.close();
 			file.close();
@@ -55,8 +53,7 @@ public class EmployeeEntrance {
 		for (Employee eachEmployee : employees) {
 			System.out.println(eachEmployee);
 		}
-//			    -----   end ---------
-///////////////////////////////////////////////////////////////////////////////////
+
 
 		do {
 			flag = true;
@@ -176,7 +173,7 @@ public class EmployeeEntrance {
 
 			// Method for serialization of object
 			out.writeObject(employees);
-//			out.writeObject(users);
+			out.writeObject(users);
 
 			out.close();
 			file.close();

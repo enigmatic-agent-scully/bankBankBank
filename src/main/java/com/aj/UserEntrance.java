@@ -9,29 +9,31 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class CustomerEntrance {
+public class UserEntrance {
 	public static Scanner scan = new Scanner(System.in);
 	public static ArrayList<User> users = new ArrayList<User>();
 	public static ArrayList<Employee> employees = new ArrayList<Employee>();
 	private static final String filename = "Data.txt";
-	boolean flag, yesNoTemp;
 	int num;
+	boolean flag, yesNoTemp;
 	String temp1, temp2, temp3, temp4;
 
-	CustomerEntrance() {
+	UserEntrance() {
 	};
 
-	@SuppressWarnings("unchecked")
-	public void CustomerMenu1() {
+	public void userMenu() {
+
 
 		try {
+
 			// Reading the object from a file
 			FileInputStream file = new FileInputStream(filename);
 			ObjectInputStream in = new ObjectInputStream(file);
 
 			// Method for deserialization of object
+
+			employees = (ArrayList<Employee>) in.readObject();
 			users = (ArrayList<User>) in.readObject();
-			// employees = (ArrayList<Employee>) in.readObject();
 
 			in.close();
 			file.close();
@@ -45,14 +47,16 @@ public class CustomerEntrance {
 		catch (ClassNotFoundException ex) {
 			System.out.println("ClassNotFoundException" + " is caught");
 		}
-		
-		for (User u : users) {
-			System.out.println(u);
+
+		// just a reference;
+		for (User eachUser : users) {
+			System.out.println(eachUser);
 		}
+
 
 		do {
 			flag = true;
-			System.out.println("\nWelcome to customer menu:\n");
+			System.out.println("\n\n\nWelcome to the Employee menu:\n");
 			System.out.println("press 1 ~ to login");
 			System.out.println("press 2 ~ to register");
 			System.out.println("press 0 ~ get back to main page");
@@ -66,20 +70,24 @@ public class CustomerEntrance {
 				num = 3;
 			}
 
-			if (2 < num || num < 1) {
+			if (2 < num || num < 0) {
 				num = 3;
 			}
 
 			switch (num) {
+
 			case 1:
-				System.out.println("customer.login();");
-				customerLoginMenu();
-				num = 4;
+				employeeLoginMenu();
 				break;
 			case 2:
-				System.out.println("customerRegisterMenu();");
-				customerRegister();
-				num = 4;
+				// ~~~~~~~~~~~~~~~~~~ to employee.register
+				try {
+					employeeRregister();
+				} catch (Throwable e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 				break;
 			case 3:
 				System.out.println("Please choose a valid number \n\n\n\n\n");
@@ -92,26 +100,26 @@ public class CustomerEntrance {
 			case 0:
 				flag = false;
 				break;
+
 			}
 		} while (flag);
-
 	}
 
-	public static String[] customerLoginMenu() {
+	public static String[] employeeLoginMenu() {
 
-		String[] custCredentials = new String[2];
+		String[] employeeCredentials = new String[2];
 		System.out.println("Please enter your username:");
 		String username = scan.nextLine();
 		System.out.println("Please enter your password:");
 		String pw = scan.nextLine();
-		custCredentials[0] = username;
-		custCredentials[1] = pw;
+		employeeCredentials[0] = username;
+		employeeCredentials[1] = pw;
 
-		return custCredentials;
+		return employeeCredentials;
 
 	}
 
-	public void customerRegister() {
+	public void employeeRregister() {
 
 		do {
 
@@ -125,22 +133,31 @@ public class CustomerEntrance {
 			temp3 = scan.nextLine();
 			System.out.println();
 
+			System.out.println("r u admin ?    (Y/N)");
+			temp4 = scan.nextLine();
+
+			if (temp4.toUpperCase().contentEquals("YES") || temp4.toUpperCase().contentEquals("Y")) {
+				yesNoTemp = true;
+			} else {
+				yesNoTemp = false;
+			}
+
 			if (!temp2.contentEquals(temp3)) {
 				System.out.println("your pass doesn't match~ ");
 				continue;
 			}
 
-			createCustomerAccount(temp1, temp2);
+			createEmployeeAccount(temp1, temp2, yesNoTemp);
 			flag = false;
 
 		} while (flag);
 
 	}
 
-	private void createCustomerAccount(String temp1, String temp2) {
+	private void createEmployeeAccount(String temp1, String temp2, boolean admin) {
 
 		try {
-			users.add(new User(temp1, temp2));
+			employees.add(new Employee(temp1, temp2, admin));
 
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
@@ -148,15 +165,23 @@ public class CustomerEntrance {
 		}
 
 		try {
+
+			// Saving of object in a file
 			FileOutputStream file = new FileOutputStream(filename);
 			ObjectOutputStream out = new ObjectOutputStream(file);
 
+			// Method for serialization of object
+			out.writeObject(employees);
 			out.writeObject(users);
+
 			out.close();
 			file.close();
+
+			// if create successful jump back to employee menu
+
 		} catch (IOException ex) {
 			System.out.println("IOException is caught");
 		}
-	}
 
+	}
 }
