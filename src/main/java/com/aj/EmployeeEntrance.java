@@ -149,6 +149,7 @@ public class EmployeeEntrance {
 			}
 
 			createEmployeeAccount(temp1, temp2, yesNoTemp);
+			delayTime(5);
 			flag = false;
 
 		} while (flag);
@@ -184,5 +185,18 @@ public class EmployeeEntrance {
 			System.out.println("IOException is caught");
 		}
 
+	}
+	public void delayTime(int count) {	
+
+		for (int i=0; i<count; i++) {
+
+			try {
+				Thread.sleep(500);
+				System.out.print(" .");
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+		System.out.println();
 	}
 }

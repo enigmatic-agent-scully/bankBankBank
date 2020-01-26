@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class UserEntrance {
@@ -16,7 +17,7 @@ public class UserEntrance {
 	private static final String filename = "Data.txt";
 	int num;
 	boolean flag, yesNoTemp;
-	String temp1, temp2, temp3, temp4, temp5, temp6;
+	
 
 	UserEntrance() {
 	};
@@ -34,6 +35,7 @@ public class UserEntrance {
 
 			employees = (ArrayList<Employee>) in.readObject();
 			users = (ArrayList<User>) in.readObject();
+			
 
 			in.close();
 			file.close();
@@ -56,8 +58,8 @@ public class UserEntrance {
 
 		do {
 			flag = true;
-			System.out.println("\n\n\nWelcome to the Employee menu:\n");
-			System.out.println("press 1 ~ to login");
+			System.out.println("\n\n\nWelcome to the User menu:\n");
+			System.out.println("press 1 ~ to log in");
 			System.out.println("press 2 ~ to register");
 			System.out.println("press 0 ~ get back to main page");
 
@@ -77,7 +79,7 @@ public class UserEntrance {
 			switch (num) {
 
 			case 1:
-				employeeLoginMenu();
+				userLoginMenu();
 				break;
 			case 2:
 				// ~~~~~~~~~~~~~~~~~~ to employee.register
@@ -105,76 +107,90 @@ public class UserEntrance {
 		} while (flag);
 	}
 
-	public static String[] employeeLoginMenu() {
-
-		String[] employeeCredentials = new String[2];
-		System.out.println("Please enter your username:");
-		String username = scan.nextLine();
-		System.out.println("Please enter your password:");
-		String pw = scan.nextLine();
-		employeeCredentials[0] = username;
-		employeeCredentials[1] = pw;
-
-		return employeeCredentials;
+	public static void userLoginMenu() {
+		String temp1, temp2;
+		
+		System.out.println(" log in with user name and pass word ");
+		System.out.println("user name:");
+		temp1 = scan.nextLine();
+		System.out.println("pass word:");
+		temp1 = scan.nextLine();
+		
 
 	}
 
+	
 	public void userRregister() {
+		
+		String name1, pw1, pw1confirm, name2, pw2, pw2confirm, singJoint;
 
 		do {
 
 			flag = true;
 
 
-			System.out.println("solo account or joint account?    (S/J)");
-			temp4 = scan.nextLine();
+			System.out.println("[S]ingle account or [J]oint account?    (S/J)");
+			singJoint = scan.nextLine();
 			System.out.println();
-			if (temp4.toUpperCase().contentEquals("J") || temp4.toUpperCase().contentEquals("JOINT")) {
+			if (singJoint.toUpperCase().contentEquals("J") || singJoint.toUpperCase().contentEquals("JOINT")) {
 				yesNoTemp = true;
 			} else {
 				yesNoTemp = false;
 			}
 
 
-
 			if (yesNoTemp) {
 
 				System.out.println("enter user1 login name:");
-				temp1 = scan.nextLine();
+				name1 = scan.nextLine();
 				System.out.println("enter user1 password you want:");
-				temp2 = scan.nextLine();
+				pw1 = scan.nextLine();
 				System.out.println("please confirm your password:");
-				temp3 = scan.nextLine();
+				pw1confirm = scan.nextLine();
 
 				System.out.println("enter user2 login name:");
-				temp4 = scan.nextLine();
+				name2 = scan.nextLine();
 				System.out.println("enter user2 password you want:");
-				temp5 = scan.nextLine();
+				pw2 = scan.nextLine();
 				System.out.println("please confirm your password:");
-				temp6 = scan.nextLine();
+				pw2confirm = scan.nextLine();
 
-				if ( !temp2.contentEquals(temp3) ||  !temp5.contentEquals(temp6) ) {
-					System.out.println("your pass doesn't match~ ");
+				if ( !pw1.contentEquals(pw1confirm) ||  !pw2.contentEquals(pw2confirm) ) {
+					System.out.println("your pass doesn't match~ \n\n\n\n");
 					continue;
 				}
-				
-				
-				createUserAccount(temp1, temp2, temp4, temp5, true);
-				
+				if (checkUseable(name1) == false ||  checkUseable(name2) == false) {
+					System.out.println("user name already exist");
+					continue;
+				}
+
+
+				createUserAccount(name1, pw1, name2, pw2, true);
+				System.out.println(" your account has been initialized");
+				delayTime(5);
+				flag = false;
 			} else {
 
 				System.out.println("enter user1 login name:");
-				temp1 = scan.nextLine();
+				name1 = scan.nextLine();
 				System.out.println("enter password you want:");
-				temp2 = scan.nextLine();
+				pw1 = scan.nextLine();
 				System.out.println("please confirm your password:");
-				temp3 = scan.nextLine();
+				pw1confirm = scan.nextLine();
 
-				if (!temp2.contentEquals(temp3)) {
+				if (!pw1.contentEquals(pw1confirm)) {
 					System.out.println("your pass doesn't match~ ");
 					continue;
 				}
-				createUserAccount(temp1, temp2, "n/a", "n/a", false);
+				
+				if (checkUseable(name1) == false) {
+					System.out.println("user name already exist");
+					continue;
+				}
+				createUserAccount(name1, pw1, "n/a", "n/a", false);
+				System.out.println(" your account has been initialized");
+				delayTime(5);
+				flag = false;
 			}
 		} while (flag);
 
@@ -210,4 +226,37 @@ public class UserEntrance {
 		}
 
 	}
+	
+	
+	
+	public boolean checkUseable(String userName) {
+		System.out.println("check in useable");
+		
+		for (int i = 0; i< users.size(); i++) {
+			
+			if (users.get(i).getName1().contentEquals(userName) || users.get(i).getName2().contentEquals(userName)) {
+				System.out.println(userName + "alrady been taken");
+				
+				return false;
+			}
+			
+		}
+		return true;
+	}
+
+
+	public void delayTime(int count) {	
+
+		for (int i=0; i<count; i++) {
+
+			try {
+				Thread.sleep(500);
+				System.out.print(" .");
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+		System.out.println();
+	}
 }
+
