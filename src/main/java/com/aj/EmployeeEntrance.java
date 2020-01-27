@@ -18,6 +18,7 @@ public class EmployeeEntrance {
 	boolean flag, yesNoTemp;
 	static boolean isLoggedIn;
 	public static Employee currentlyLoggedIn = null;
+	public static User userToBeEdited = null;
 
 	EmployeeEntrance() {
 	};
@@ -219,33 +220,31 @@ public class EmployeeEntrance {
 			adminMenu();
 		}
 
-
 	}
-	
+
 	@SuppressWarnings("unused")
 	public static void employeeMenu() {
 		User userToBeEdited = null;
 		System.out.println("Hello " + currentlyLoggedIn.getName());
 		System.out.println("Please enter the ID of the account you wish to make changes to:");
 		num = scan.nextInt();
-		
+
 		for (User u : users) {
 			if (u.getAccountID() == num) {
 				userToBeEdited = u;
 			}
 		}
 
-		
-		
 	}
 
 	public static void adminMenu() {
-		User userToBeEdited = null;
-		System.out.println("Hello Admin.");
+		
+		System.out.println("\nHello Admin.\n");
 		System.out.println("What would you like to do?");
 		System.out.println("1. View All Accounts");
 		System.out.println("2. View Unapproved Accounts");
-		System.out.println("3. Log Out");
+		System.out.println("3. Modify Account Balances");
+		System.out.println("4. Log Out");
 
 		num = scan.nextInt();
 
@@ -256,25 +255,65 @@ public class EmployeeEntrance {
 			}
 			break;
 		case 2:
-			for (User u : users) {
-				if (!u.isActivated()) {
-					System.out.println(u);
-				}
-			}
-			System.out.println("Please enter the ID of the account you wish to approve:");
-			int id = scan.nextInt();
-			for (User u1 : users) {
-				if (u1.getAccountID() == id) {
-					userToBeEdited = u1;
-					userToBeEdited.setActivated(true);
-				}
-			}
+			adminApproveAccount();
 			break;
 		case 3:
+			for (User u : users) {
+				System.out.println(u);
+			}
+			System.out.println("Please enter the ID of the account you wish to modify:");
+			int id1 = scan.nextInt();
+			for (User u1 : users) {
+				if (u1.getAccountID() == id1) {
+					userToBeEdited = u1;
+				}
+			}
+			System.out.println("-------------------------------------------------");
+			System.out.println("The accound balances for Account Number " + userToBeEdited.getAccountID() + " are as follows:");
+			System.out.println("-------------------------------------------------");
+			System.out.println("Checking: $" + userToBeEdited.getChecking());
+			System.out.println("Savings: $" + userToBeEdited.getSaving());
+			System.out.println("Credit: $" + userToBeEdited.getCredit());
+			
+			System.out.println("Please enter the type of the account you would like to edit:");
+			System.out.println("1. Checking");
+			System.out.println("2. Savings");
+			System.out.println("3. Credit");
+			
+			
+			break;
+		case 4: 
 			isLoggedIn = false;
 			currentlyLoggedIn = null;
 			break;
 		}
+	}
+	
+	public static void adminApproveAccount() {
+		System.out.println("The following accounts have not been approved:");
+		for (User u : users) {
+			if (!u.isActivated()) {
+				System.out.println(u);
+			}
+		}
+		System.out.println("Please enter the ID of the account you wish to approve:");
+		int id = scan.nextInt();
+		for (User u1 : users) {
+			if (u1.getAccountID() == id) {
+				userToBeEdited = u1;
+				userToBeEdited.setActivated(true);
+			}
+			System.out.println("Account Number " + userToBeEdited.getAccountID() );
+		}
+		for (User u2 : users) {
+			if (!u2.isActivated()) {
+				System.out.println(u2);
+			}
+		}
+	}
+	
+	public static void employeeTransfer() {
+		
 	}
 
 	public boolean checkUsable(String username) {
