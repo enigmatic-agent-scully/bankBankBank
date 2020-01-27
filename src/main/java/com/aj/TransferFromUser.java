@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TransferFromUser {
-
+	
 	public static Scanner scan = new Scanner(System.in);
 	public static ArrayList<User> users = new ArrayList<User>();
 	public static ArrayList<Employee> employees = new ArrayList<Employee>();
@@ -17,7 +17,7 @@ public class TransferFromUser {
 	static long accountID;
 	static int num;
 	static boolean flag, yesNoTemp;
-
+	
 	public void transferMenu(int accountIndex) {
 		
 		do {
@@ -41,20 +41,19 @@ public class TransferFromUser {
 		
 
 	}
-
-	public static boolean checkAccountID(long accountID) {
-
-		for (int i = 0; i < users.size(); i++) {
-			if (users.get(i).getAccountID() == accountID) {
-				return true;
-			}
+	
+public static boolean checkAccountID(long accountID) {
+	
+	for (int i=0; i< users.size(); i++) {
+		if (users.get(i).getAccountID() == accountID) {
+			return true;
 		}
-		return false;
 	}
-
-	@SuppressWarnings("unchecked")
-	public static void toLoad() {
-
+	return false;
+}
+	
+public static void toLoad() {
+		
 		try {
 
 			// Reading the object from a file
@@ -65,6 +64,7 @@ public class TransferFromUser {
 
 			employees = (ArrayList<Employee>) in.readObject();
 			users = (ArrayList<User>) in.readObject();
+			
 
 			in.close();
 			file.close();
@@ -80,26 +80,26 @@ public class TransferFromUser {
 		}
 	}
 
-	public static void toSave() {
+public static void toSave(){
+	
+	try {
+		// Saving of object in a file
+		FileOutputStream file = new FileOutputStream(filename);
+		ObjectOutputStream out = new ObjectOutputStream(file);
 
-		try {
-			// Saving of object in a file
-			FileOutputStream file = new FileOutputStream(filename);
-			ObjectOutputStream out = new ObjectOutputStream(file);
+		// Method for serialization of object
+		out.writeObject(employees);
+		out.writeObject(users);
 
-			// Method for serialization of object
-			out.writeObject(employees);
-			out.writeObject(users);
+		out.close();
+		file.close();
 
-			out.close();
-			file.close();
+		// if create successful jump back to employee menu
 
-			// if create successful jump back to employee menu
-
-		} catch (IOException ex) {
-			System.out.println("IOException is caught");
-		}
-
+	} catch (IOException ex) {
+		System.out.println("IOException is caught");
 	}
+	
+}
 
 }
