@@ -14,7 +14,7 @@ public class EmployeeEntrance {
 	public static ArrayList<User> users = new ArrayList<User>();
 	public static ArrayList<Employee> employees = new ArrayList<Employee>();
 	private static final String filename = "Data.txt";
-	int num;
+	static int num;
 	boolean flag, yesNoTemp;
 	static boolean isLoggedIn;
 	public static Employee currentlyLoggedIn = null;
@@ -132,11 +132,8 @@ public class EmployeeEntrance {
 				isLoggedIn = true;
 				currentlyLoggedIn = e;
 			}
-			else {
-				System.out.println("The password you entered is incorrect. Please enter your password:");
-				pw = scan.nextLine();
-			}
 		}
+
 		System.out.println("\nLogin successful!\nYou are currently logged in as " + currentlyLoggedIn.getName());
 
 		displayEmployeeUI(currentlyLoggedIn.isAdmin());
@@ -219,27 +216,50 @@ public class EmployeeEntrance {
 	public static void displayEmployeeUI(boolean isAdmin) {
 		System.out.println("\nWelcome to the Employee Interface.\n\n");
 		if (isAdmin) {
-			System.out.println("Hello Admin.");
-			for (User u : users) {
-				System.out.println(u);
-			}
-		} else {
-			for (User u : users) {
-				if (u.isActivated()) {
-					System.out.print("Account ID: " + u.getAccountID() + " | ");
-					System.out.print("Primary Account Holder: " + u.getName1() + " | ");
-					if (!u.getName2().contentEquals("n/a")) {
-						System.out.print("Secondary Account Holder: " + u.getName2() + " | ");
-					}
-					System.out.println("Checking Account Balance: $" + u.getChecking() + " | ");
-					System.out.println("Savings Account Balance: $" + u.getSaving());
+			adminMenu();
+
+		}
+
+		for (User u : users) {
+			if (u.isActivated()) {
+				System.out.print("Account ID: " + u.getAccountID() + " | ");
+				System.out.print("Primary Account Holder: " + u.getName1() + " | ");
+				if (!u.getName2().contentEquals("n/a")) {
+					System.out.print("Secondary Account Holder: " + u.getName2() + " | ");
 				}
+				System.out.println("Checking Account Balance: $" + u.getChecking() + " | ");
+				System.out.println("Savings Account Balance: $" + u.getSaving());
 			}
 		}
 	}
-	
-	public void adminMenu() {
-		
+
+	public static void adminMenu() {
+		System.out.println("Hello Admin.");
+		System.out.println("What would you like to do?");
+		System.out.println("1. View All Accounts");
+		System.out.println("2. View Unapproved Accounts");
+		System.out.println("3. Log Out");
+
+		num = scan.nextInt();
+
+		switch (num) {
+		case 1:
+			for (User u : users) {
+				System.out.println(u);
+			}
+			break;
+		case 2:
+			for (User u : users) {
+				if (!u.isActivated()) {
+					System.out.println(u);
+				}
+			}
+			break;
+		case 3:
+			isLoggedIn = false;
+			currentlyLoggedIn = null;
+		}
+
 	}
 
 	public boolean checkUsable(String username) {
