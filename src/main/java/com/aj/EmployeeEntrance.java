@@ -217,23 +217,30 @@ public class EmployeeEntrance {
 		System.out.println("\nWelcome to the Employee Interface.\n\n");
 		if (isAdmin) {
 			adminMenu();
-
 		}
 
+
+	}
+	
+	@SuppressWarnings("unused")
+	public static void employeeMenu() {
+		User userToBeEdited = null;
+		System.out.println("Hello " + currentlyLoggedIn.getName());
+		System.out.println("Please enter the ID of the account you wish to make changes to:");
+		num = scan.nextInt();
+		
 		for (User u : users) {
-			if (u.isActivated()) {
-				System.out.print("Account ID: " + u.getAccountID() + " | ");
-				System.out.print("Primary Account Holder: " + u.getName1() + " | ");
-				if (!u.getName2().contentEquals("n/a")) {
-					System.out.print("Secondary Account Holder: " + u.getName2() + " | ");
-				}
-				System.out.println("Checking Account Balance: $" + u.getChecking() + " | ");
-				System.out.println("Savings Account Balance: $" + u.getSaving());
+			if (u.getAccountID() == num) {
+				userToBeEdited = u;
 			}
 		}
+
+		
+		
 	}
 
 	public static void adminMenu() {
+		User userToBeEdited = null;
 		System.out.println("Hello Admin.");
 		System.out.println("What would you like to do?");
 		System.out.println("1. View All Accounts");
@@ -254,12 +261,20 @@ public class EmployeeEntrance {
 					System.out.println(u);
 				}
 			}
+			System.out.println("Please enter the ID of the account you wish to approve:");
+			int id = scan.nextInt();
+			for (User u1 : users) {
+				if (u1.getAccountID() == id) {
+					userToBeEdited = u1;
+					userToBeEdited.setActivated(true);
+				}
+			}
 			break;
 		case 3:
 			isLoggedIn = false;
 			currentlyLoggedIn = null;
+			break;
 		}
-
 	}
 
 	public boolean checkUsable(String username) {
